@@ -32,7 +32,7 @@ export default class FigureViewMain extends Component {
        <FigureView
            imgArr={imageData.data}
            figureHeight={140}
-           figurePlace='center'
+           dotPlace='center'
            dotDefaultColor="white"
            dotSelectedColor="red"
            dotRadius={5}

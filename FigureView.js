@@ -42,7 +42,7 @@ export default class FigureView extends Component {
     static propTypes = {
         imgArr: PropTypes.array,
         figureHeight: PropTypes.number,
-        figurePlace: PropTypes.string,
+        dotPlace: PropTypes.string,
         dotDefaultColor: PropTypes.string,
         dotSelectedColor: PropTypes.string,
         dotRadius: PropTypes.number,
@@ -62,7 +62,7 @@ export default class FigureView extends Component {
         // //焦点图的高度
         figureHeight: 120,
         // //焦点显示的位置{left,center,right}
-        figurePlace: 'left',
+        dotPlace: 'left',
         // //焦点默认状态的颜色
         dotDefaultColor: 'white',
         // //焦点选中后的颜色
@@ -88,7 +88,7 @@ export default class FigureView extends Component {
 
 
     componentWillMount() {
-        let figurePlace = this.props.figurePlace;
+        let figurePlace = this.props.dotPlace;
         this.dotJustifyContent = 'flex-start';
         if ("left".startsWith(figurePlace)) {
             this.dotJustifyContent = "flex-start";
