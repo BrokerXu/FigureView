@@ -4,6 +4,8 @@ react native实现的轮播图
    ![FigureView-ios](/img/figure.gif)
    
 ````   
+FigureView.js
+
 <FigureView
            <!--图片的地址集合-->
            imgArr={imageData.data}
