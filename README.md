@@ -8,6 +8,35 @@ react native实现的轮播图
 ````   
 FigureView.js(适配了Android与Ios)
 
+ImageData.json
+
+{
+  "data": [
+    {
+      "img" : "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3413953738,1102676238&fm=200&gp=0.jpg",
+      "title" : "你那一笑倾国倾城"
+    },
+    {
+      "img" : "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2344518468,3052832983&fm=26&gp=0.jpg",
+      "title" : "那里记录了最唯美的爱情故事"
+    },
+    {
+      "img" : "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1381471869,537167883&fm=200&gp=0.jpg",
+      "title" : "我怎么是一个剩女"
+    },
+    {
+      "img" : "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2615553309,1722257899&fm=26&gp=0.jpg",
+      "title" : "生命中最后的四分钟"
+    },
+    {
+      "img" : "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2494637734,2622956535&fm=28&gp=0.jpg",
+      "title" : "我们都需要治疗"
+    }
+  ]
+}
+
+使用实例：
+
 <FigureView
            <!--图片的地址集合-->
            imgArr={imageData.data}
