@@ -12,20 +12,38 @@ import {
   View
 } from 'react-native';
 
-export default class FigureView extends Component {
+import FigureView from './FigureView';
+import imageData from './ImageData.json';
+
+export default class FigureViewMain extends Component {
+
+
+   onPageClick(index){
+      console.log("点击了".concat(index));
+  }
+
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
+        <FigureView
+            imgArr={imageData.data}
+            figureHeight={120}
+            dotPlace='right'
+            dotDefaultColor="white"
+            dotSelectedColor="blue"
+            dotRadius={5}
+            dotMargin={5}
+            dotParentStyle={{paddingRight:10}}
+            isHasDotBackground={true}
+            dotBackgroundHeight={30}
+            dotBackgroundColor="#55555599"
+            autoTime={2000}
+            isAutoPlay={true}
+            onPageClick={this.onPageClick}
+            isHasTitle={true}
+            titleStyle={{color:'orange',fontSize:12,fontWeight:'400',paddingLeft:10}}
+        />
       </View>
     );
   }
@@ -34,20 +52,9 @@ export default class FigureView extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  }
 });
 
-AppRegistry.registerComponent('FigureView', () => FigureView);
+AppRegistry.registerComponent('FigureView', () => FigureViewMain);

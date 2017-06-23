@@ -2,7 +2,7 @@
  * Created by BrokerXu on 2017/6/21.
  */
 import React, {Component} from 'react';
-import {Image, View, ScrollView, Dimensions, TouchableHighlight} from 'react-native';
+import {Image,Text, View, ScrollView, Dimensions, TouchableHighlight} from 'react-native';
 import PropTypes from 'prop-types';
 
 
@@ -19,12 +19,15 @@ const {width} = Dimensions.get('window');
  *      dotSelectedColor="red"
  *      dotRadius={5}
  *      dotMargin={5}
+ *      dotParentStyle={{paddingLeft:10}}
  *      isHasDotBackground={true}
  *      dotBackgroundHeight={30}
  *      dotBackgroundColor="#55555599"
  *      autoTime={2000}
  *      isAutoPlay={true}
- *      onPageClick={this.onPageClick}/>
+ *      onPageClick={this.onPageClick}
+ *      isHasTitle={true}
+ *      titleStyle={{color:'orange',fontSize:12,fontWeight:'400',paddingRight:10}}/>
  *
  */
 export default class FigureView extends Component {
@@ -33,7 +36,8 @@ export default class FigureView extends Component {
         super(props);
 
         this.state = {
-            currentPage: 0
+            currentPage: 0,
+            title:this.props.imgArr[0].title
         };
 
     }
@@ -50,6 +54,7 @@ export default class FigureView extends Component {
         isHasDotBackground: PropTypes.bool,
         dotBackgroundHeight: PropTypes.number,
         dotBackgroundColor: PropTypes.string,
+        isHasTitle:PropTypes.bool,
         isAutoPlay: PropTypes.bool,
         autoTime: PropTypes.number,
         onPageClick: PropTypes.func,
@@ -58,25 +63,31 @@ export default class FigureView extends Component {
 //初始化默认值
     static defaultProps = {
         //图片集合
-        imgArr: [],
+        imgArr : [],
         // //焦点图的高度
-        figureHeight: 120,
+        figureHeight : 120,
         // //焦点显示的位置{left,center,right}
-        dotPlace: 'left',
+        dotPlace : 'left',
         // //焦点默认状态的颜色
-        dotDefaultColor: 'white',
+        dotDefaultColor : 'white',
         // //焦点选中后的颜色
-        dotSelectedColor: 'red',
+        dotSelectedColor : 'red',
         // //焦点的半径
-        dotRadius: 10,
+        dotRadius : 10,
         //焦点之间的间距
-        dotMargin: 10,
+        dotMargin : 10,
+        //焦点的样式
+        dotParentStyle : {},
         //是否显示底部背景
         isHasDotBackground: true,
         //底部背景的高度
         dotBackgroundHeight: 35,
         //显示的底部背景颜色
         dotBackgroundColor: '#f7f7f7',
+        //是否显示title
+        isHasTitle:true,
+        //title文字的样式
+        titleStyle:{color:'white',fontSize:14,fontWeight:'500'},
         // //是否自动轮播
         isAutoPlay: true,
         // //轮播时间间隔(单位：ms)
@@ -94,6 +105,7 @@ export default class FigureView extends Component {
             this.dotJustifyContent = "flex-start";
         } else if ('center'.startsWith(figurePlace)) {
             this.dotJustifyContent = 'center';
+            this.props.isHasTitle = false;
         } else if ('right'.startsWith(figurePlace)) {
             this.dotJustifyContent = 'flex-end';
         }
@@ -102,7 +114,8 @@ export default class FigureView extends Component {
     //开启定时器
     startTimer() {
         if (this.props.isAutoPlay) {
-            const pageCount = this.props.imgArr.length;
+            const pageArr = this.props.imgArr;
+            const pageCount = pageArr.length;
             const autoTime = this.props.autoTime;
             this.timer = setInterval(
                 () => {
@@ -114,7 +127,8 @@ export default class FigureView extends Component {
                         activePage = currentPage + 1;
                     }
                     this.setState({
-                        currentPage: activePage
+                        currentPage: activePage,
+                        title:this.getTitle(activePage)
                     });
 
                     let offsetX = activePage * width;
@@ -124,6 +138,10 @@ export default class FigureView extends Component {
                 autoTime
             );
         }
+    }
+
+    getTitle(index){
+        return this.props.isHasTitle?this.props.imgArr[index].title : '';
     }
 
     // //实现拖拽无限滚动
@@ -180,17 +198,30 @@ export default class FigureView extends Component {
         //得到当前页索引
         let currentPage = Math.floor(offsetX / width);
         //更新状态，刷新UI
-        this.setState({currentPage});
+        this.setState({
+            currentPage,
+            title:this.getTitle(currentPage)
+        });
 
     }
 
     //点击原点切换页面
     dotOnScroll(index) {
         let offsetX = width * index;
-        this.setState({currentPage: index});
+        this.setState({
+            currentPage: index,
+            title:this.getTitle(index)
+        });
         this.scrollFigure.scrollTo({x: offsetX, y: 0, animated: true});
+
     }
 
+    getTitleTextView(textAlign){
+        return this.props.isHasTitle && <Text
+                style={[{flex:1,alignSelf:'center',textAlign:textAlign,marginLeft:this.props.dotMargin,marginRight:this.props.dotMargin},this.props.titleStyle]}
+                numberOfLines={1}
+            >{this.state.title}</Text>;
+    }
 
     render() {
         return (
@@ -237,19 +268,22 @@ export default class FigureView extends Component {
                     position: 'absolute',
                     bottom: 0,
                     flexDirection: 'row',
-                    justifyContent: this.dotJustifyContent
                 }}>
-                    <View style={{
+                    {'right'.startsWith(this.props.dotPlace)&&this.getTitleTextView('left')}
+
+                    <View style={[{
+                        flex: 1,
                         height: this.props.dotBackgroundHeight,
                         flexDirection: 'row',
                         alignItems: 'center',
                         marginLeft: this.props.dotMargin,
-                        marginRight: this.props.dotMargin
-                    }}>
+                        marginRight: this.props.dotMargin,
+                        justifyContent:this.dotJustifyContent
+                    },this.props.dotParentStyle]}>
                         {this.props.imgArr.map((value, index) => {
                             return <TouchableHighlight
                                 key={index}
-                                activeOpacity={0.5}
+                                activeOpacity={1.0}
                                 onPress={() => this.dotOnScroll(index)}
                             >
                                 <View
@@ -266,6 +300,7 @@ export default class FigureView extends Component {
                             </TouchableHighlight>;
                         })}
                     </View>
+                    {'left'.startsWith(this.props.dotPlace)&&this.getTitleTextView('right')}
                 </View>
             </View>
         );

@@ -3,8 +3,10 @@ react native实现的轮播图
 
    ![FigureView-ios](/img/figure.gif)
    
+   ![FigureView-title-ios](/img/figure1.gif)
+   
 ````   
-FigureView.js
+FigureView.js(适配了Android与Ios)
 
 <FigureView
            <!--图片的地址集合-->
@@ -21,6 +23,8 @@ FigureView.js
            dotRadius={5}
            <!--小圆点的间距-->
            dotMargin={5}
+           <!--小圆点的父布局的样式-->
+           dotParentStyle={{paddingLeft:10}}
            <!--是否显示小圆点后面的背景-->
            isHasDotBackground={true}
             <!--小圆点后面的背景的高度-->
@@ -33,8 +37,12 @@ FigureView.js
            isAutoPlay={true}
            <!--图片的点击事件 参数：index 图片的索引-->
            onPageClick={this.onPageClick}
+            <!--是否显示title-->
+           isHasTitle={true}
+           <!--title的样式-->
+           titleStyle={{color:'orange',fontSize:12,fontWeight:'400',paddingRight:10}}
        />
       
-       
+  ````       
     
 
